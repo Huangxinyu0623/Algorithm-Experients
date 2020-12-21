@@ -1,0 +1,40 @@
+import java.util.*;
+public class BubbleSort {
+
+	private static Scanner s;
+
+	private static long count=0;
+	public static void main(String[] args) {
+		s = new Scanner(System.in);
+		int n = s.nextInt();
+		int[] numbers = new int[n];
+		for (int i = 0; i < n; i++) {
+			numbers[i] = (int) (Math.random() * 100 % n + 1);
+			System.out.print(numbers[i] + " ");
+		}
+		System.out.println();
+		long start=System.nanoTime();
+		bubbleSort(numbers, n);
+		long end=System.nanoTime();
+		for (int j = 0; j < n; j++) {
+			System.out.print(numbers[j] + " ");
+		}
+		System.out.println();
+		System.out.println("运行时间为"+(end-start)/1000000.0+"ms");
+		System.out.println("操作次数为"+count+"次");
+	}
+
+	private static void bubbleSort(int[] numbers, int n) {
+		int temp;
+		for (int i = 0; i < n; i++) {
+			for (int j = 1; j < n - i; j++) {
+				if (numbers[j - 1] > numbers[j]) {
+					count++;
+					temp = numbers[j - 1];
+					numbers[j - 1] = numbers[j];
+					numbers[j] = temp;
+				}
+			}
+		}
+	}
+}
