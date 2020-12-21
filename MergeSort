@@ -1,0 +1,71 @@
+import java.util.*;
+
+public class mergeSort {
+
+	private static Scanner s;
+	private static int count=0;
+	public static void main(String[] args) {
+		s = new Scanner(System.in);
+		int n = s.nextInt();
+		int[] numbers = new int[n];
+		for (int i = 0; i < n; i++) {
+			numbers[i] = (int) (Math.random() * 100) % n + 1;
+			System.out.print(numbers[i] + " ");
+		}
+		System.out.println();
+		long start=System.nanoTime();
+		mergeSort(numbers, 0, n - 1);
+		long end=System.nanoTime();
+		for (int i = 0; i < n; i++) {
+			System.out.print(numbers[i] + " ");
+		}
+		System.out.println();
+		System.out.println("运行时间为"+(end-start)/1000000.0+"ms");
+		System.out.println("操作执行次数为"+count+"次");
+
+
+	}
+
+	private static void mergeSort(int[] numbers, int first, int last) {
+		if (first < last) {
+
+			int middle = (first + last) / 2;// 每次从中间划分
+			mergeSort(numbers, first, middle);
+			mergeSort(numbers, middle + 1, last);
+			mergeList(numbers, first, middle, last);
+		}
+	}
+
+	private static void mergeList(int[] numbers, int first, int middle, int last) {
+		int l1 = middle - first + 1;
+		int l2 = last - middle;
+		int[] m = new int[l1];
+		int[] n = new int[l2];
+		int x = 0, y = 0;
+		for (int i = first; i <= middle; i++) {
+			m[x++] = numbers[i];
+		}
+		for (int j = middle + 1; j <= last; j++) {
+			n[y++] = numbers[j];
+		}
+		int a = 0, b = 0;
+		int k = first;
+		while (a < l1 && b < l2) {
+			if (m[a] <= n[b]) {
+				count++;
+				numbers[k++] = m[a++];
+			} else if (m[a] > n[b]) {
+				count++;
+				numbers[k++] = n[b++];
+			}
+		}
+		while (a < l1) {
+			count++;
+			numbers[k++] = m[a++];
+		}
+		while (b < l2) {
+			count++;
+			numbers[k++] = n[b++];
+		}
+	}
+}
