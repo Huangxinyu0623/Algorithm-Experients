@@ -1,0 +1,63 @@
+import java.util.*;
+
+public class QuickSort {
+
+	private static Scanner s;
+
+	private static int count=0;
+	public static void main(String[] args) {
+		s = new Scanner(System.in);
+		int n = s.nextInt();
+		int[] numbers = new int[n];
+		for (int i = 0; i < n; i++) {
+			numbers[i] = (int) (Math.random() * 100) % n + 1;
+			System.out.print(numbers[i] + " ");
+		}
+		System.out.println();
+		long start=System.nanoTime();
+		quickSort(numbers, 0, n - 1);
+		long end=System.nanoTime();
+		for (int j = 0; j < n; j++) {
+			System.out.print(numbers[j] + " ");
+		}
+		System.out.println();
+		System.out.println("运行时间为"+(end-start)/1000000.0+"ms");
+		System.out.println("操作执行次数为"+count+"次");
+	}
+
+	private static void quickSort(int[] numbers, int start, int end) {
+		if (start < end) {
+			int pos = partition(numbers, start, end);
+			quickSort(numbers, start, pos - 1);
+			quickSort(numbers, pos + 1, end);
+		}
+	}
+
+	private static int partition(int[] numbers, int start, int end) {
+		int mid = numbers[start];// 每次确定第一个数为划分元素
+		int i = start, j = end;
+		while (i < j) {
+			while (numbers[j] >= mid && i < j) {
+				j--;
+				count++;
+			} // 左边指针停下
+			while (numbers[i] <= mid && i < j) {
+				i++;
+				count++;
+			}
+			if (i < j) {
+				int temp;
+				temp = numbers[i];
+				numbers[i] = numbers[j];
+				numbers[j] = temp;
+			} else
+				break;
+		}
+		int temp;
+		temp = numbers[start];
+		numbers[start] = numbers[j];
+		numbers[j] = temp;
+		return j;
+	}
+
+}
