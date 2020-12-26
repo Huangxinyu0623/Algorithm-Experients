@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class knapsack {
+	private static Scanner s;
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		s = new Scanner(System.in);
+		int c = s.nextInt();// 背包容量
+		int n = s.nextInt();// 物体种类
+		int[] w = new int[n+1];// 每个物体的质量
+		int[] v = new int[n+1];// 每个物体的价值
+		w[0]=0;v[0]=0;
+		for (int i = 1; i <= n; i++) {
+			w[i] = (int)Math.random()*100%(c/2);
+		}
+		for (int i = 1; i <= n; i++) {
+			v[i] = (int)Math.random()*100;
+		}
+		int[][] dp = new int[n + 1][c + 1];
+		long start=System.nanoTime();
+		for (int i = 0; i <=n; i++) {
+			dp[i][0] = 0;
+		}
+		for (int i = 0; i <=c; i++) {
+			dp[0][i] = 0;
+		}
+		for (int i = 1; i <= c; i++) {
+			for (int j = 1; j <= n; j++) {
+				if (i >= w[j]) {
+					dp[j][i] = max(dp[j - 1][i], v[j] + dp[j - 1][i - w[j]]);
+				} else if (i < w[j]) {
+					dp[j][i] = dp[j - 1][i];
+				}
+
+			}
+		}
+		long end=System.nanoTime();
+
+		System.out.println("运行时间为"+(end-start)/1000000.0+"ms");
+		System.out.println(dp[n][c]);
+	}
+
+	private static int max(int a, int b) {
+		return a >= b ? a : b;
+	}
+
+}
