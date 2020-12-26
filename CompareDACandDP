@@ -1,0 +1,39 @@
+import java.util.*;
+public class compareDPandDC {
+    private static int count1=0,count2=0;
+    private static Scanner s;
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+    s=new Scanner(System.in);
+    int n=s.nextInt();
+    int result1=dcf(n);
+    int result2=dpf(n);
+    System.out.println(result1+"   分治法运行次数为"+count1);
+    System.out.println(result2+"   动态规划运行次数为"+count2);
+	}
+	public static int dcf(int n) {
+		count1++;
+		if(n==1||n==2) {
+			return 1;
+		}else {
+			return dcf(n-1)+dcf(n-2); 
+		}	
+	}
+	
+	public static int dpf(int n) {
+		int[] f=new int[n+1];
+		f[0]=0;
+		for(int i=1;i<=n;i++) {
+			count2++;
+			if(i==1||i==2) {
+				f[i]=1;
+				count2++;
+			}else {
+				f[i]=f[i-1]+f[i-2];
+				count2++;
+			}
+		}
+		return f[n];
+	}
+
+}
