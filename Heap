@@ -1,0 +1,83 @@
+#include<stdio.h>
+
+int heap[10010],n=10;//n为初始进入堆中的元素个数
+
+void swap(int a,int b)
+{
+    int temp=heap[a];
+    heap[a]=heap[b];
+    heap[b]=temp;
+
+}
+
+void downAdjust(int low,int high)//根结点向下调整
+{
+    int i=low,j=2*i;//low为待处理元素的下标，high通常为数组最后一个元素下标，j为i的左子树
+    while(j<=high){//当左子树存在时
+            if(j+1<=high&&heap[j]<heap[j+1]){
+                j=j+1;//如果右子树大于左子树，就令交换下标为左子树
+            }
+            if(heap[i]<heap[j]){
+                swap(i,j);
+                i=j;
+                j=2*i;
+            }else break;
+    }
+
+}
+
+void createHeap()//前提是数组中初步填过元素
+{
+    for(int i=n/2;i>=1;i--){
+        downAdjust(i,n);//从根节点向下调整，由二叉树性质，n/2为最后一个根节点的下标
+    }
+
+}
+
+void heapSort()
+{
+    createHeap();
+    for(int i=n;i>1;i--){
+        swap(i,1);
+        downAdjust(1,i-1);
+    }
+
+}
+
+void deleteTop()//删除栈顶元素
+{
+    heap[1]=heap[n--];//令栈顶元素等于最后一个元素
+    downAdjust(1,n);//向下调整
+
+}
+
+void upAdjust(int low,int high)//由叶子节点向上调整，low通常设为1，即堆顶
+{
+    int i=high,j=i/2;
+    while(j>=low){
+        if(heap[i]>heap[j]){//如果叶子节点大于根节点
+            swap(i,j);
+            i=j;
+            j=i/2;
+        }else break;
+    }
+}
+
+void insert(int x)
+{
+    heap[++n]=x;
+    upAdjust(1,n);
+
+}
+
+int main(void)
+{
+    for(int i=1;i<=n;i++){
+        scanf("%d",&heap[i]);
+    }
+    heapSort();
+    for(int i=1;i<=n;i++){
+        printf("%d ",heap[i]);
+    }
+    return 0;
+}
